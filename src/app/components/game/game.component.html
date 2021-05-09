@@ -1,0 +1,24 @@
+
+
+<div class="container">
+  <div class="flex center">
+    <label class="player-clicked" [ngClass]="{'show':finishedLoop,'hide':!finishedLoop}">You have to guess {{simonArray.length}} times.</label>
+  </div>
+  <div class="flex center">
+    <app-game-button color="red" (guess)="playerGuess($event)"></app-game-button>
+  </div>
+  <div class="flex middle">
+    <app-game-button color="blue" (guess)="playerGuess($event)"></app-game-button>
+    <p>{{ count }}</p>
+    <app-game-button color="green" (guess)="playerGuess($event)"></app-game-button>
+  </div>
+  <div class="flex center">
+    <app-game-button color="yellow" (guess)="playerGuess($event)"></app-game-button>
+  </div>
+  <div class="flex center">
+    <app-game-button  color="white" (guess)="playerGuess($event)">Restart</app-game-button>
+  </div>
+  <div>
+    <span *ngFor="let data of simonArray">{{data}}</span>
+  </div>
+</div>

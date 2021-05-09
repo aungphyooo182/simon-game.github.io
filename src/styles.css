@@ -1,1 +1,56 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+  --black : #071013;
+  --green: #29bf12;
+  --blue: #08bdbd;
+  --red: #f21b3f;
+  --yellow: #ff9915;
+}
+
+body{
+  background-color: var(--black);
+  color: white;
+  font-family: sans-serif;
+}
+
+.container{
+  width: 480px;
+  margin: 0 auto;
+}
+
+.flex{
+  display: flex;
+  margin: 2rem;
+}
+
+.center{
+  justify-content: center;
+}
+
+.middle{
+  justify-content: space-around;
+  align-items: baseline;
+}
+
+p{
+  font-size: 2rem;
+}
+
+.continue-btn{
+  width: 120px;
+  height: 48px;
+  outline: none;
+  border: none;
+  font-weight: bold;
+  font-size: 1rem;
+  border-radius: 12px;
+  margin-top: 8px;
+}
+
+@media only screen and (max-width: 400px){
+  .container{
+    width: 100%;
+    text-align: center;
+  }
+}
+
