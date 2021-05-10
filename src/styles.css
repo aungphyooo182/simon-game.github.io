@@ -8,10 +8,13 @@
 }
 
 body{
-  background-color: var(--black);
+  /* background-color: var(--black); */
+  /* background-image: linear-gradient(to right, #ffecd2 0%, #fcb69f 100%); */
+  /* #a1c4fd → #c2e9fb */
+  background-image: linear-gradient(to right, #a1c4fd 0%, #c2e9fb 100%);
   color: white;
   font-family: sans-serif;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 h1{
@@ -24,13 +27,25 @@ h1{
 }
 
 .home-container{
+  width: 100%;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
+.home-container>p,.home-container>label{
+  padding-left: 24px;
+}
+
 .home-container>.continue-btn{
-  margin: 0 auto;
+  margin-left: 20px;
+}
+
+.home-container>label{
+  font-size: 20px;
+  line-height: 28px;
+  color: black;
 }
 
 .blur-container{
@@ -96,6 +111,14 @@ p{
   .container{
     width: 100%;
     text-align: center;
+  }
+  .home-container>.continue-btn{
+    margin: 0 auto;
+  }
+  .home-container>label{
+    font-size: 20px;
+    line-height: 28px;
+    padding: 0px 10px;
   }
 }
 

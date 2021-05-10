@@ -3,7 +3,8 @@ button{
   height: 5.6rem;
   border: 0.24rem solid;
   border-radius: 50%;
-  background-color: var(--black);
+  /* background-color: var(--black); */
+  background-color: transparent;
   cursor: pointer;
   outline: none;
   touch-action: none;
@@ -17,7 +18,7 @@ button{
 
 .green:active, .green.active {
   background-color: var(--green);
-  border-color: var(--black);
+  border-color: transparent;
 }
 
 .blue{
@@ -26,7 +27,7 @@ button{
 
 .blue:active, .blue.active {
   background-color: var(--blue);
-  border-color: var(--black);
+  border-color: transparent;
 }
 
 .red{
@@ -35,7 +36,7 @@ button{
 
 .red:active, .red.active {
   background-color: var(--red);
-  border-color: var(--black);
+  border-color: transparent;
 }
 
 .yellow{
@@ -44,7 +45,7 @@ button{
 
 .yellow:active, .yellow.active {
   background-color: var(--yellow);
-  border-color: var(--black);
+  border-color: transparent;
 }
 
 .white{
