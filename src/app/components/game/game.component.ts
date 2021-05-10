@@ -1,6 +1,7 @@
 import { state } from '@angular/animations';
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { ApoGameStateService } from 'src/app/services/apo-game-state.service';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
@@ -12,6 +13,20 @@ export class GameComponent implements OnInit {
   state: any;
   simonArray: string[];
   finishedLoop: boolean = false;
+  supportOrientation: boolean = true;
+  showWinnerText: boolean = false;
+  showErrorText: boolean = false;
+  showDebug = environment.showDebug;
+
+  @HostListener("window:resize") updateOrientatioState() {
+    console.log('ori')
+    if (window.innerHeight > window.innerWidth) {
+      this.supportOrientation = true;
+      this.game.generateSimon();
+    } else {
+      this.supportOrientation = false;
+    }
+  }
   constructor(
     // private game: GameStateService,
     private game: ApoGameStateService) { }
@@ -23,8 +38,10 @@ export class GameComponent implements OnInit {
       this.count = state.count; //for show
       this.simonArray = state.simon;
       this.finishedLoop = state.finishedLoop;
+      this.showWinnerText = state.showWinnerText;
+      this.showErrorText = state.showErrorText;
     });
-    this.game.generateSimon();
+    this.updateOrientatioState();
   }
 
   playerGuess(e: string) {
@@ -33,5 +50,13 @@ export class GameComponent implements OnInit {
     } else {
       this.game.restartSimon();
     }
+  }
+
+  tryAgain(){
+    this.game.tryAgain();
+  }
+
+  updateGame() {
+    this.game.updateGame();
   }
 }

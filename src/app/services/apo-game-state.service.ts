@@ -9,12 +9,34 @@ export class ApoGameStateService {
   public simon : string[] = [];
   public player : string[] = [];
   public count: number;
+  public showWinnerText : boolean;
+  public showErrorText : boolean;
   public state = new Subject<any> (); // subjecy is a pratial observable
 
   public finishedLoop = false;
-
+  public redAudio = new Audio();
+  public greenAudio = new Audio();
+  public blueAudio = new Audio();
+  public yellowAudio = new Audio();
+  public soundEffects = [
+    this.redAudio, this.greenAudio, this.blueAudio, this.yellowAudio
+  ];
+  // src/app/services/apo-game-state.service
   constructor() {
     this.count = START_COUNT;
+    this.redAudio.src = 'assets/sounds/sfx-animal-dog.mp3';
+    this.greenAudio.src = 'assets/sounds/sfx-animal-kitten.mp3';
+    this.blueAudio.src = 'assets/sounds/sfx-animal-pig.mp3';
+    this.yellowAudio.src = 'assets/sounds/sfx-animal-sheep.mp3';
+    this.redAudio.load();
+    this.greenAudio.load();
+    this.blueAudio.load();
+    this.yellowAudio.load();
+
+    this.redAudio.volume = 0.1;
+    this.greenAudio.volume = 0.1;
+    this.blueAudio.volume = 0.1;
+    this.yellowAudio.volume = 0.1;
   }
 
   private get randomColor() : string {
@@ -46,22 +68,42 @@ export class ApoGameStateService {
       player: this.player,
       simon: this.simon,
       count: this.count,
-      finishedLoop: this.finishedLoop
+      finishedLoop: this.finishedLoop,
+      showWinnerText : this.showWinnerText,
+      showErrorText : this.showErrorText
     });
     console.log('set state');
   }
 
   restartSimon() : void { //checked
+    this.showWinnerText = false;
+    this.showErrorText = false;
     this.count = START_COUNT;
     this.generateSimon();
   }
 
+  playeSound(val: number){
+    console.log(val);
+    this.soundEffects[val].play();
+    // this.soundEffects[val].pause;
+    // this.soundEffects[val].currentTime = 0;
+    setTimeout(() => {
+      this.soundEffects[val].pause();
+      this.soundEffects[val].currentTime = 0;
+    }, 500);
+  }
+
   playerGuess(val: string) {
     this.player.push(val); //push val to player array
+    this.playeSound(COLORS[val]);
     // this.compareSimon().then(this.isComplete()); //check if correct
     this.compareSimon().subscribe(data=>{
-      console.log('check');
-      this.checkComplete();
+      if (data) {
+        console.log('check');
+        this.checkComplete();
+      }else {
+
+      }
     });
   }
 
@@ -70,6 +112,9 @@ export class ApoGameStateService {
       if(this.player[i] !== this.simon[i]) {
         this.player = [];
         console.log('wrong');
+        this.showErrorText = true;
+        this.setState();
+        return of (false);
       }
       else {
         console.log('correct');
@@ -78,11 +123,18 @@ export class ApoGameStateService {
     return of(true);
   }
 
+  showWinner(){
+    this.showWinnerText = true;
+    this.setState();
+  }
+
   checkComplete(){
     console.log(this.player.length,this.simon.length,this.player.length === this.simon.length)
     if (this.player.length === this.simon.length) {
       console.log('update')
-      this.updateGame();
+      // I don't want to update asap and show message
+      this.showWinner();
+      // this.updateGame();
     }else {
       // setTimeout(() => {
       //   this.index = 0;
@@ -104,6 +156,7 @@ export class ApoGameStateService {
         console.log(id+' is added');
         var button = document.querySelectorAll(id)[0];
         button.classList.add('active');
+        this.playeSound(COLORS[this.simon[this.loopIndex]]);
         this.clearOthers(this.simon[this.loopIndex]);
         this.loopIndex++;
         setTimeout(() => {
@@ -137,11 +190,18 @@ export class ApoGameStateService {
   }
 
   updateGame() {
+    this.showWinnerText = false;
     console.log('updateGame');
-    setTimeout(() => {
       this.appendSimon(true);
       this.loop();
       this.player = [];
-    }, 1000);
+  }
+
+  tryAgain(){
+    this.showErrorText = false;
+    this.setState();
+    this.loopIndex = 0;
+    this.loop();
+    this.player = [];
   }
 }

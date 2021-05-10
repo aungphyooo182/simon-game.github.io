@@ -18,6 +18,29 @@ body{
   margin: 0 auto;
 }
 
+.blur-container{
+  background-color: white;
+  opacity: 0;
+  height: 100%;
+  position: absolute;
+}
+
+.error-container{
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+}
+
+.card{
+  width: 300px;
+  background: grey;
+  padding: 10px;
+  border-radius: 16px;
+}
+
 .flex{
   display: flex;
   margin: 2rem;
@@ -47,10 +70,30 @@ p{
   margin-top: 8px;
 }
 
+.footer-btn{
+  display: flex;
+  justify-content: space-around;
+}
+
 @media only screen and (max-width: 400px){
   .container{
     width: 100%;
     text-align: center;
   }
 }
+
+/* lock orientation */
+
+/* @media screen and (max-height: 600px) and (orientation: landscape) {
+  html {
+    transform: rotate(-90deg);
+    transform-origin: left top;
+    width: 100vh;
+    overflow-x: hidden;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: --var(yellow);
+  }
+} */
 
