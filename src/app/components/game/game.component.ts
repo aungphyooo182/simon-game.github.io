@@ -17,14 +17,26 @@ export class GameComponent implements OnInit {
   showWinnerText: boolean = false;
   showErrorText: boolean = false;
   showDebug = environment.showDebug;
+  previousSupportOrientation : boolean = false;
 
   @HostListener("window:resize") updateOrientatioState() {
     console.log('ori')
     if (window.innerHeight > window.innerWidth) {
       this.supportOrientation = true;
-      this.game.generateSimon();
+      if (!this.previousSupportOrientation && this.supportOrientation) {
+        this.game.generateSimon();
+      }
+      this.previousSupportOrientation = this.supportOrientation;
     } else {
-      this.supportOrientation = false;
+      if (window.innerHeight >= 600) {
+        this.supportOrientation = true;
+        if (!this.previousSupportOrientation && this.supportOrientation) {
+          this.game.generateSimon();
+        }
+        this.previousSupportOrientation = this.supportOrientation;
+      } else {
+        this.supportOrientation = false;
+      }
     }
   }
   constructor(

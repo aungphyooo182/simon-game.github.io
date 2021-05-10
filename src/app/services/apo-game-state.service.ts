@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject, of } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { START_COUNT, COLORS } from '../models/constants';
 
 @Injectable({
@@ -21,8 +22,10 @@ export class ApoGameStateService {
   public soundEffects = [
     this.redAudio, this.greenAudio, this.blueAudio, this.yellowAudio
   ];
+  public debugMode = environment.showDebug;
   // src/app/services/apo-game-state.service
   constructor() {
+    this.debugMode = false; //testing
     this.count = START_COUNT;
     this.redAudio.src = 'assets/sounds/sfx-animal-dog.mp3';
     this.greenAudio.src = 'assets/sounds/sfx-animal-kitten.mp3';
@@ -33,10 +36,10 @@ export class ApoGameStateService {
     this.blueAudio.load();
     this.yellowAudio.load();
 
-    this.redAudio.volume = 0.1;
-    this.greenAudio.volume = 0.1;
-    this.blueAudio.volume = 0.1;
-    this.yellowAudio.volume = 0.1;
+    this.redAudio.volume = this.debugMode ? 0.1 : 1;
+    this.greenAudio.volume = this.debugMode ? 0.1 : 1;
+    this.blueAudio.volume = this.debugMode ? 0.1 : 1;
+    this.yellowAudio.volume = this.debugMode ? 0.1 : 1;
   }
 
   private get randomColor() : string {
@@ -52,6 +55,7 @@ export class ApoGameStateService {
   }
 
   generateSimon() : void { //first
+    console.log('generateSimon');
     this.loopIndex = 0;
     this.simon = [];
     for (let i = 0; i < this.count; i++) {
@@ -112,9 +116,11 @@ export class ApoGameStateService {
       if(this.player[i] !== this.simon[i]) {
         this.player = [];
         console.log('wrong');
-        this.showErrorText = true;
+        setTimeout(() => {
+          this.showErrorText = true;
         this.setState();
         return of (false);
+        }, 100);
       }
       else {
         console.log('correct');
